@@ -29,6 +29,7 @@
   "include": [
     "src",
     "typeorm-cli.config.ts",
+    "typeorm-cli.config.data.ts",
     "env.d.ts",
     "test"
   ]
