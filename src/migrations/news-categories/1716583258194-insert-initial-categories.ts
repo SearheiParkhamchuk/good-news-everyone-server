@@ -1,48 +1,67 @@
-import { NEWS_CATEGORIES_TYPES } from '@/src/04-entities/news-categories-repository/@enum';
+import {
+  NEWS_CATEGORIES_KEYS_LOCATION,
+  NEWS_CATEGORIES_KEYS_SOURCE,
+  NEWS_CATEGORIES_KEYS_TOPIC,
+  NEWS_CATEGORIES_TYPES,
+} from '@/src/04-entities/news-categories-repository/@enum';
 import { NewsCategoriesEntityDTO } from '@/src/04-entities/news-categories-repository/@types';
 import { NewsCategoriesRepositoryEntity } from '@/src/04-entities/news-categories-repository/news-categories-repository.entity';
 import { MigrationInterface, QueryRunner } from 'typeorm';
 
 const INITIAL_VALUES_LOCATION: NewsCategoriesEntityDTO[] = [
-  { type: NEWS_CATEGORIES_TYPES.LOCATION, key: 'all', name: 'All' },
-  { type: NEWS_CATEGORIES_TYPES.LOCATION, key: 'world', name: 'World' },
-  { type: NEWS_CATEGORIES_TYPES.LOCATION, key: 'europe', name: 'Europe' },
-  { type: NEWS_CATEGORIES_TYPES.LOCATION, key: 'africa', name: 'Africa' },
-  { type: NEWS_CATEGORIES_TYPES.LOCATION, key: 'australia', name: 'Australia' },
-  { type: NEWS_CATEGORIES_TYPES.LOCATION, key: 'asia', name: 'Asia' },
-  { type: NEWS_CATEGORIES_TYPES.LOCATION, key: 'north_america', name: 'North America' },
-  { type: NEWS_CATEGORIES_TYPES.LOCATION, key: 'south_america', name: 'South America' },
-];
+  { type: NEWS_CATEGORIES_TYPES.LOCATION, key: NEWS_CATEGORIES_KEYS_LOCATION.All, name: 'All' },
+  { type: NEWS_CATEGORIES_TYPES.LOCATION, key: NEWS_CATEGORIES_KEYS_LOCATION.World, name: 'World' },
+  { type: NEWS_CATEGORIES_TYPES.LOCATION, key: NEWS_CATEGORIES_KEYS_LOCATION.Europe, name: 'Europe' },
+  { type: NEWS_CATEGORIES_TYPES.LOCATION, key: NEWS_CATEGORIES_KEYS_LOCATION.Africa, name: 'Africa' },
+  { type: NEWS_CATEGORIES_TYPES.LOCATION, key: NEWS_CATEGORIES_KEYS_LOCATION.Australia, name: 'Australia' },
+  { type: NEWS_CATEGORIES_TYPES.LOCATION, key: NEWS_CATEGORIES_KEYS_LOCATION.Asia, name: 'Asia' },
+  {
+    type: NEWS_CATEGORIES_TYPES.LOCATION,
+    key: NEWS_CATEGORIES_KEYS_LOCATION.NorthAmerica,
+    name: 'North America',
+  },
+  {
+    type: NEWS_CATEGORIES_TYPES.LOCATION,
+    key: NEWS_CATEGORIES_KEYS_LOCATION.SouthAmerica,
+    name: 'South America',
+  },
+] as const;
 
 const INITIAL_VALUES_TOPICS: NewsCategoriesEntityDTO[] = [
-  { type: NEWS_CATEGORIES_TYPES.TOPIC, key: 'all', name: 'All' },
-  { type: NEWS_CATEGORIES_TYPES.TOPIC, key: 'politics', name: 'Politics' },
-  { type: NEWS_CATEGORIES_TYPES.TOPIC, key: 'economy', name: 'Economy' },
-  { type: NEWS_CATEGORIES_TYPES.TOPIC, key: 'technology', name: 'Technology' },
-  { type: NEWS_CATEGORIES_TYPES.TOPIC, key: 'science', name: 'Science' },
-  { type: NEWS_CATEGORIES_TYPES.TOPIC, key: 'health', name: 'Health' },
-  { type: NEWS_CATEGORIES_TYPES.TOPIC, key: 'education', name: 'Education' },
-  { type: NEWS_CATEGORIES_TYPES.TOPIC, key: 'sports', name: 'Sports' },
-  { type: NEWS_CATEGORIES_TYPES.TOPIC, key: 'culture', name: 'Culture' },
-  { type: NEWS_CATEGORIES_TYPES.TOPIC, key: 'entertainment', name: 'Entertainment' },
-  { type: NEWS_CATEGORIES_TYPES.TOPIC, key: 'fashion', name: 'Fashion' },
-  { type: NEWS_CATEGORIES_TYPES.TOPIC, key: 'travel', name: 'Travel' },
-  { type: NEWS_CATEGORIES_TYPES.TOPIC, key: 'world', name: 'World News' },
-  { type: NEWS_CATEGORIES_TYPES.TOPIC, key: 'crime', name: 'Crime' },
-  { type: NEWS_CATEGORIES_TYPES.TOPIC, key: 'society', name: 'Society' },
-  { type: NEWS_CATEGORIES_TYPES.TOPIC, key: 'lifestyle', name: 'Lifestyle' },
-  { type: NEWS_CATEGORIES_TYPES.TOPIC, key: 'finance', name: 'Finance' },
-  { type: NEWS_CATEGORIES_TYPES.TOPIC, key: 'automotive', name: 'Automotive' },
-  { type: NEWS_CATEGORIES_TYPES.TOPIC, key: 'environment', name: 'Environment' },
-];
+  { type: NEWS_CATEGORIES_TYPES.TOPIC, key: NEWS_CATEGORIES_KEYS_TOPIC.All, name: 'All' },
+  { type: NEWS_CATEGORIES_TYPES.TOPIC, key: NEWS_CATEGORIES_KEYS_TOPIC.Politics, name: 'Politics' },
+  { type: NEWS_CATEGORIES_TYPES.TOPIC, key: NEWS_CATEGORIES_KEYS_TOPIC.Economy, name: 'Economy' },
+  { type: NEWS_CATEGORIES_TYPES.TOPIC, key: NEWS_CATEGORIES_KEYS_TOPIC.Technology, name: 'Technology' },
+  { type: NEWS_CATEGORIES_TYPES.TOPIC, key: NEWS_CATEGORIES_KEYS_TOPIC.Science, name: 'Science' },
+  { type: NEWS_CATEGORIES_TYPES.TOPIC, key: NEWS_CATEGORIES_KEYS_TOPIC.Health, name: 'Health' },
+  { type: NEWS_CATEGORIES_TYPES.TOPIC, key: NEWS_CATEGORIES_KEYS_TOPIC.Education, name: 'Education' },
+  { type: NEWS_CATEGORIES_TYPES.TOPIC, key: NEWS_CATEGORIES_KEYS_TOPIC.Sports, name: 'Sports' },
+  { type: NEWS_CATEGORIES_TYPES.TOPIC, key: NEWS_CATEGORIES_KEYS_TOPIC.Culture, name: 'Culture' },
+  { type: NEWS_CATEGORIES_TYPES.TOPIC, key: NEWS_CATEGORIES_KEYS_TOPIC.Entertainment, name: 'Entertainment' },
+  { type: NEWS_CATEGORIES_TYPES.TOPIC, key: NEWS_CATEGORIES_KEYS_TOPIC.Fashion, name: 'Fashion' },
+  { type: NEWS_CATEGORIES_TYPES.TOPIC, key: NEWS_CATEGORIES_KEYS_TOPIC.Travel, name: 'Travel' },
+  { type: NEWS_CATEGORIES_TYPES.TOPIC, key: NEWS_CATEGORIES_KEYS_TOPIC.WorldNews, name: 'World News' },
+  { type: NEWS_CATEGORIES_TYPES.TOPIC, key: NEWS_CATEGORIES_KEYS_TOPIC.Crime, name: 'Crime' },
+  { type: NEWS_CATEGORIES_TYPES.TOPIC, key: NEWS_CATEGORIES_KEYS_TOPIC.Society, name: 'Society' },
+  { type: NEWS_CATEGORIES_TYPES.TOPIC, key: NEWS_CATEGORIES_KEYS_TOPIC.Lifestyle, name: 'Lifestyle' },
+  { type: NEWS_CATEGORIES_TYPES.TOPIC, key: NEWS_CATEGORIES_KEYS_TOPIC.Finance, name: 'Finance' },
+  { type: NEWS_CATEGORIES_TYPES.TOPIC, key: NEWS_CATEGORIES_KEYS_TOPIC.Automotive, name: 'Automotive' },
+  { type: NEWS_CATEGORIES_TYPES.TOPIC, key: NEWS_CATEGORIES_KEYS_TOPIC.Environment, name: 'Environment' },
+  { type: NEWS_CATEGORIES_TYPES.TOPIC, key: NEWS_CATEGORIES_KEYS_TOPIC.Popular, name: 'Popular' },
+  { type: NEWS_CATEGORIES_TYPES.TOPIC, key: NEWS_CATEGORIES_KEYS_TOPIC.RealEstate, name: 'Real Estate' },
+] as const;
 
 const INITIAL_VALUES_SOURCE: NewsCategoriesEntityDTO[] = [
-  { type: NEWS_CATEGORIES_TYPES.SOURCE, key: 'all', name: 'All' },
-  { type: NEWS_CATEGORIES_TYPES.SOURCE, key: 'cnn', name: 'CNN' },
-  { type: NEWS_CATEGORIES_TYPES.SOURCE, key: 'bbc', name: 'BBC' },
-  { type: NEWS_CATEGORIES_TYPES.SOURCE, key: 'nyt', name: 'New York Times' },
-  { type: NEWS_CATEGORIES_TYPES.SOURCE, key: 'twsj', name: 'The Wall Street Journal' },
-];
+  { type: NEWS_CATEGORIES_TYPES.SOURCE, key: NEWS_CATEGORIES_KEYS_SOURCE.All, name: 'All' },
+  { type: NEWS_CATEGORIES_TYPES.SOURCE, key: NEWS_CATEGORIES_KEYS_SOURCE.CNN, name: 'CNN' },
+  { type: NEWS_CATEGORIES_TYPES.SOURCE, key: NEWS_CATEGORIES_KEYS_SOURCE.BBC, name: 'BBC' },
+  { type: NEWS_CATEGORIES_TYPES.SOURCE, key: NEWS_CATEGORIES_KEYS_SOURCE.NYT, name: 'New York Times' },
+  {
+    type: NEWS_CATEGORIES_TYPES.SOURCE,
+    key: NEWS_CATEGORIES_KEYS_SOURCE.TheWallStreetJournal,
+    name: 'The Wall Street Journal',
+  },
+] as const;
 
 const INITIAL_VALUES: NewsCategoriesEntityDTO[] = [
   INITIAL_VALUES_LOCATION,
