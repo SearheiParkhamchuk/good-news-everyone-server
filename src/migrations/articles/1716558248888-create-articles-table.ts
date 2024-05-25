@@ -1,6 +1,9 @@
 import { MigrationInterface, QueryRunner, TableColumn, Table } from 'typeorm';
 import { mapColumnDecoratorToTableColumn } from '../@helpers/map-column-decorator-to-table-column.helper';
-import { ARTICLES_TABLE_COLUMNS, ARTICLES_TABLE_NAME } from '@/src/04-entities/articles/articles.schema';
+import {
+  ARTICLES_TABLE_COLUMNS,
+  ARTICLES_TABLE_NAME,
+} from '@/src/04-entities/articles-repository/articles-repository.schema';
 
 const UUID = new TableColumn(mapColumnDecoratorToTableColumn(ARTICLES_TABLE_COLUMNS.uuid));
 const CREATED_AT = new TableColumn(mapColumnDecoratorToTableColumn(ARTICLES_TABLE_COLUMNS.created_at));
@@ -10,7 +13,7 @@ const EXPIRE_AT = new TableColumn(mapColumnDecoratorToTableColumn(ARTICLES_TABLE
 const DESCRIPTION = new TableColumn(mapColumnDecoratorToTableColumn(ARTICLES_TABLE_COLUMNS.description));
 const ID = new TableColumn(mapColumnDecoratorToTableColumn(ARTICLES_TABLE_COLUMNS.id));
 const MEDIA = new TableColumn(mapColumnDecoratorToTableColumn(ARTICLES_TABLE_COLUMNS.media));
-const SOURCE = new TableColumn(mapColumnDecoratorToTableColumn(ARTICLES_TABLE_COLUMNS.source));
+const SOURCE_URL = new TableColumn(mapColumnDecoratorToTableColumn(ARTICLES_TABLE_COLUMNS.source_url));
 const SOURCE_NAME = new TableColumn(mapColumnDecoratorToTableColumn(ARTICLES_TABLE_COLUMNS.source_name));
 const THUMBNAIL = new TableColumn(mapColumnDecoratorToTableColumn(ARTICLES_TABLE_COLUMNS.thumbnail));
 
@@ -27,7 +30,7 @@ export class CreateArticlesTable1716558248888 implements MigrationInterface {
           PUBLISHED_AT,
           EXPIRE_AT,
           DESCRIPTION,
-          SOURCE,
+          SOURCE_URL,
           SOURCE_NAME,
           THUMBNAIL,
           MEDIA,

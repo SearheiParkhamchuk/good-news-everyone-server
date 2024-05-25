@@ -12,7 +12,7 @@ type Columns =
   | 'description'
   | 'thumbnail'
   | 'title'
-  | 'source'
+  | 'source_url'
   | 'source_name'
   | 'media';
 
@@ -69,8 +69,8 @@ export const ARTICLES_TABLE_COLUMNS: Record<Columns, ColumnDecoratorOptions> = {
     length: '255',
     nullable: false,
   },
-  source: {
-    name: 'source',
+  source_url: {
+    name: 'source_url',
     type: 'varchar',
     length: '255',
     nullable: false,
