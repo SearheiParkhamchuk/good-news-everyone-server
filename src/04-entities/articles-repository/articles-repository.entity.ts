@@ -1,9 +1,9 @@
-import { Column, Entity } from 'typeorm';
-import { ARTICLES_TABLE_COLUMNS, ARTICLES_TABLE_NAME } from './articles.schema';
+import { Column, Entity, BaseEntity } from 'typeorm';
+import { ARTICLES_TABLE_COLUMNS, ARTICLES_TABLE_NAME } from './articles-repository.schema';
 import { ArticleRemoteSourceMedia } from './@types';
 
 @Entity(ARTICLES_TABLE_NAME)
-export class ArticleEntity {
+export class ArticleRepositoryEntity extends BaseEntity {
   @Column(ARTICLES_TABLE_COLUMNS.uuid)
   uuid: string;
 
@@ -25,8 +25,8 @@ export class ArticleEntity {
   @Column(ARTICLES_TABLE_COLUMNS.title)
   title: string;
 
-  @Column(ARTICLES_TABLE_COLUMNS.source)
-  source: string;
+  @Column(ARTICLES_TABLE_COLUMNS.source_url)
+  source_url: string;
 
   @Column(ARTICLES_TABLE_COLUMNS.source_name)
   source_name: string;
@@ -36,8 +36,4 @@ export class ArticleEntity {
 
   @Column(ARTICLES_TABLE_COLUMNS.expire_at)
   expire_at: Date;
-
-  constructor(user: Partial<ArticleEntity> = {}) {
-    Object.assign(this, user);
-  }
 }

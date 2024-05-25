@@ -3,12 +3,12 @@ import { InjectRepository } from '@nestjs/typeorm';
 
 import { Repository } from 'typeorm';
 
-import { ArticleEntity } from './articles.entity';
+import { ArticleRepositoryEntity } from './articles-repository.entity';
 
 @Injectable()
 export class ArticlesRepositoryService {
   constructor(
-    @InjectRepository(ArticleEntity)
-    private readonly respository: Repository<ArticleEntity>,
+    @InjectRepository(ArticleRepositoryEntity)
+    private readonly respository: Repository<ArticleRepositoryEntity>,
   ) {}
 }
