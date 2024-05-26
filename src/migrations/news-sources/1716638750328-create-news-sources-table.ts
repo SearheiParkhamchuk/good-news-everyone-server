@@ -15,11 +15,12 @@ const UUID = new TableColumn(mapColumnDecoratorToTableColumn(NEWS_SOURCES_TABLE_
 const CREATED_AT = new TableColumn(mapColumnDecoratorToTableColumn(NEWS_SOURCES_TABLE_COLUMNS.created_at));
 const UPDATED_AT = new TableColumn(mapColumnDecoratorToTableColumn(NEWS_SOURCES_TABLE_COLUMNS.updated_at));
 const URL = new TableColumn(mapColumnDecoratorToTableColumn(NEWS_SOURCES_TABLE_COLUMNS.url));
-const NAME = new TableColumn(mapColumnDecoratorToTableColumn(NEWS_SOURCES_TABLE_COLUMNS.name));
+const TITLE = new TableColumn(mapColumnDecoratorToTableColumn(NEWS_SOURCES_TABLE_COLUMNS.title));
+const SOURCE = new TableColumn(mapColumnDecoratorToTableColumn(NEWS_SOURCES_TABLE_COLUMNS.source));
 
 const news_sources_table = new Table({
   name: NEWS_SOURCES_TABLE_NAME,
-  columns: [UUID, CREATED_AT, UPDATED_AT, URL, NAME],
+  columns: [UUID, CREATED_AT, UPDATED_AT, URL, TITLE, SOURCE],
 });
 
 const news_sources_and_categories_table_index = new TableIndex({
@@ -62,10 +63,8 @@ export class CreateNewsSourcesTable1716638750328 implements MigrationInterface {
   public async up(queryRunner: QueryRunner): Promise<void> {
     try {
       await queryRunner.startTransaction();
-      await Promise.all([
-        queryRunner.createTable(news_sources_table),
-        queryRunner.createTable(news_sources_and_categories_table),
-      ]);
+      await queryRunner.createTable(news_sources_table);
+      await queryRunner.createTable(news_sources_and_categories_table);
       await queryRunner.commitTransaction();
     } catch {
       await queryRunner.rollbackTransaction();

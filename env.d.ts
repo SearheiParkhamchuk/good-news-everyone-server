@@ -1,5 +1,7 @@
 declare namespace NodeJS {
   interface ProcessEnv {
+    APP_PORT: number;
+
     DB_PG_USERNAME: DB_PG_USERNAME;
     DB_PG_PASSWORD: DB_PG_PASSWORD;
     DB_PG_PORT: DB_PG_PORT;

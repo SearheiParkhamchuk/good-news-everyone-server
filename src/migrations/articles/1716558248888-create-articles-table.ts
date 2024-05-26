@@ -16,6 +16,7 @@ const MEDIA = new TableColumn(mapColumnDecoratorToTableColumn(ARTICLES_TABLE_COL
 const SOURCE_URL = new TableColumn(mapColumnDecoratorToTableColumn(ARTICLES_TABLE_COLUMNS.source_url));
 const SOURCE_NAME = new TableColumn(mapColumnDecoratorToTableColumn(ARTICLES_TABLE_COLUMNS.source_name));
 const THUMBNAIL = new TableColumn(mapColumnDecoratorToTableColumn(ARTICLES_TABLE_COLUMNS.thumbnail));
+const TITLE = new TableColumn(mapColumnDecoratorToTableColumn(ARTICLES_TABLE_COLUMNS.title));
 
 export class CreateArticlesTable1716558248888 implements MigrationInterface {
   public async up(queryRunner: QueryRunner): Promise<void> {
@@ -25,15 +26,16 @@ export class CreateArticlesTable1716558248888 implements MigrationInterface {
         columns: [
           UUID,
           ID,
-          CREATED_AT,
-          UPDATED_AT,
+          SOURCE_NAME,
+          TITLE,
+          SOURCE_URL,
           PUBLISHED_AT,
           EXPIRE_AT,
           DESCRIPTION,
-          SOURCE_URL,
-          SOURCE_NAME,
           THUMBNAIL,
           MEDIA,
+          CREATED_AT,
+          UPDATED_AT,
         ],
       }),
     );
