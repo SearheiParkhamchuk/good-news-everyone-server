@@ -14,7 +14,8 @@ type Columns =
   | 'title'
   | 'source_url'
   | 'source_name'
-  | 'media';
+  | 'media'
+  | 'source';
 
 export const ARTICLES_TABLE_COLUMNS: Record<Columns, ColumnDecoratorOptions> = {
   uuid: {
@@ -85,5 +86,11 @@ export const ARTICLES_TABLE_COLUMNS: Record<Columns, ColumnDecoratorOptions> = {
     name: 'media',
     type: 'json',
     nullable: false,
+  },
+  source: {
+    name: 'source',
+    type: 'uuid',
+    nullable: false,
+    unique: false,
   },
 } as const;

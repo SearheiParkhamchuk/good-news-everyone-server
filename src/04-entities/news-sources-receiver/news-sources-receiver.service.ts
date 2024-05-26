@@ -8,42 +8,43 @@ import { NEWS_REPOSITORY_SOURCES } from '../news-sources-repository/@enums';
 
 @Injectable()
 export class NewsSourcesReceiverService {
-  static selectData(data: Array<SourceResponse<ArticleRemoteSource[]>>): ArticleRemoteSource[] {
-    return data
-      .filter((s): s is { data: ArticleRemoteSource[]; error: null } => !!s.data)
-      .map((s) => s.data)
-      .flat();
+  static selectErrors(sources: SourceResponse<ArticleRemoteSource[], any>[]) {
+    return sources.reduce((acc, source) => {
+      if (source.error) acc.push(source.error);
+      return acc;
+    }, []);
   }
 
   constructor(private readonly sources_factory: NewsSourcesEntitiesFactory) {}
 
-  async fetchSources({ sources }: GetSourcesCriteria): Promise<{
-    data: ArticleRemoteSource[];
-    errors: Array<unknown>;
-  }> {
-    const source_receivers = this.getSources({ sources }).flat();
-    const response = await this.fetch(source_receivers);
-    const articles = NewsSourcesReceiverService.selectData(response);
-    const errors = response.filter((d) => !!d.error);
-    return { data: articles, errors };
+  async fetchSources<M extends object>({ sources }: GetSourcesCriteria<M>) {
+    const source_receivers = this.getSources<M>({ sources });
+    const response = await this.fetch<M>(source_receivers);
+    return response;
   }
 
-  private getSources({ sources }: GetSourcesCriteria) {
-    const bindedCreate: (source: NEWS_SOURCES, options: { url: string }) => NewsSource<any> =
+  private getSources<M extends object>({ sources }: GetSourcesCriteria<M>) {
+    const bindedCreate: (source: NEWS_SOURCES, options: { url: string }) => NewsSource<any, M> =
       this.sources_factory.create.bind(this.sources_factory);
-    const bbcSources = partial(bindedCreate, NEWS_SOURCES.BBC);
-    const cnnSources = partial(bindedCreate, NEWS_SOURCES.CNN);
-    const nytSources = partial(bindedCreate, NEWS_SOURCES.NYT);
-    const wsjSources = partial(bindedCreate, NEWS_SOURCES.WALL_STREET_JOURNAL);
-    return [
-      sources.filter((s) => s.source === NEWS_REPOSITORY_SOURCES.BBC).map(bbcSources),
-      sources.filter((s) => s.source === NEWS_REPOSITORY_SOURCES.CNN).map(cnnSources),
-      sources.filter((s) => s.source === NEWS_REPOSITORY_SOURCES.NYT).map(nytSources),
-      sources.filter((s) => s.source === NEWS_REPOSITORY_SOURCES.WALL_STREET_JOURNAL).map(wsjSources),
-    ];
+
+    const sources_map = {
+      [NEWS_REPOSITORY_SOURCES.BBC]: partial(bindedCreate, NEWS_SOURCES.BBC),
+      [NEWS_REPOSITORY_SOURCES.CNN]: partial(bindedCreate, NEWS_SOURCES.CNN),
+      [NEWS_REPOSITORY_SOURCES.NYT]: partial(bindedCreate, NEWS_SOURCES.NYT),
+      [NEWS_REPOSITORY_SOURCES.WALL_STREET_JOURNAL]: partial(bindedCreate, NEWS_SOURCES.WALL_STREET_JOURNAL),
+    };
+
+    return sources.reduce<NewsSource<any, M>[]>((acc, source) => {
+      const receiver = sources_map[source.source];
+      if (!receiver) throw new Error(`Invalid news source: ${source.source}`);
+      acc.push(receiver(source));
+      return acc;
+    }, []);
   }
 
-  private async fetch(sources: NewsSource[]): Promise<Array<SourceResponse<ArticleRemoteSource[]>>> {
+  private async fetch<M extends object>(
+    sources: NewsSource<any, M>[],
+  ): Promise<Array<SourceResponse<ArticleRemoteSource[], M>>> {
     const response = await Promise.all(sources.map(async (s) => s.getAll()));
     return response.map((s) => s.adapter());
   }

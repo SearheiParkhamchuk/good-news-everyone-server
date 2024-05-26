@@ -12,16 +12,16 @@ import { Injectable } from '@nestjs/common';
 export class NewsSourcesEntitiesFactory {
   constructor(private readonly parser: XmlParser) {}
 
-  create(source: NEWS_SOURCES, options: SourceOptions): NewsSource {
+  create<M extends object>(source: NEWS_SOURCES, options: SourceOptions<M>): NewsSource<any, M> {
     switch (source) {
       case NEWS_SOURCES.BBC:
-        return new BBCNewsSourceEntity(options, this.parser);
+        return new BBCNewsSourceEntity<M>(options, this.parser);
       case NEWS_SOURCES.CNN:
-        return new CNNNewsSourceEntity(options, this.parser);
+        return new CNNNewsSourceEntity<M>(options, this.parser);
       case NEWS_SOURCES.NYT:
-        return new NytNewsSourceEntity(options, this.parser);
+        return new NytNewsSourceEntity<M>(options, this.parser);
       case NEWS_SOURCES.WALL_STREET_JOURNAL:
-        return new TheWallStreeJournalNewsSourceEntity(options, this.parser);
+        return new TheWallStreeJournalNewsSourceEntity<M>(options, this.parser);
       default:
         return never(source, `Unknown news source ${source}`);
     }
