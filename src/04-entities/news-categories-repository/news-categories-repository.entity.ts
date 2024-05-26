@@ -24,4 +24,9 @@ export class NewsCategoriesRepositoryEntity extends BaseEntity {
 
   @ManyToMany(() => NewsSourcesRepositoryEntity, (source) => source.categories)
   news_sources: NewsSourcesRepositoryEntity[];
+
+  constructor(entity: Partial<NewsCategoriesRepositoryEntity> = {}) {
+    super();
+    Object.assign(this, entity);
+  }
 }
