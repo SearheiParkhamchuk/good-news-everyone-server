@@ -17,7 +17,7 @@ import { POSTGRES_CONFIG_TOKEN, postgres_db_config, PostgresDbConfig } from './p
           password: postgresConfig.password,
           database: postgresConfig.database,
           autoLoadEntities: true,
-          synchronize: false,
+          synchronize: process.env.NODE_ENV !== 'production',
         };
       },
       inject: [ConfigService],

@@ -262,10 +262,11 @@ export class InsertInitialNewsSources1716647408625 implements MigrationInterface
         news_source.title = source.title;
         news_source.categories = categories;
         news_source.source = source.source;
-        await news_source.save();
+        return news_source;
       });
 
-      await Promise.all(promises);
+      const entities = await Promise.all(promises);
+      await queryRunner.manager.save(entities);
       await queryRunner.commitTransaction();
     } catch {
       await queryRunner.rollbackTransaction();

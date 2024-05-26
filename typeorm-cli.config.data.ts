@@ -23,6 +23,7 @@ const dataSource = NestFactory.create(ConfigModule.forRoot({ load: [postgres_db_
       entities: [ArticleRepositoryEntity, NewsCategoriesRepositoryEntity, NewsSourcesRepositoryEntity],
       migrations: [InsertInitialCategories1716583258194, InsertInitialNewsSources1716647408625],
       migrationsTableName: 'migrations-data',
+      synchronize: false,
     });
   },
 );

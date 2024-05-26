@@ -18,44 +18,58 @@ const URL = new TableColumn(mapColumnDecoratorToTableColumn(NEWS_SOURCES_TABLE_C
 const TITLE = new TableColumn(mapColumnDecoratorToTableColumn(NEWS_SOURCES_TABLE_COLUMNS.title));
 const SOURCE = new TableColumn(mapColumnDecoratorToTableColumn(NEWS_SOURCES_TABLE_COLUMNS.source));
 
-const news_sources_table = new Table({
+const sources_table = new Table({
   name: NEWS_SOURCES_TABLE_NAME,
   columns: [UUID, CREATED_AT, UPDATED_AT, URL, TITLE, SOURCE],
 });
 
-const news_sources_and_categories_table_index = new TableIndex({
-  name: 'news_sources_and_categories_table_index',
-  columnNames: [NEWS_SOURCE_REFERENCED_COLUMN_NAME, NEWS_CATEGORIES_REFERENCED_COLUMN_NAME],
-  isUnique: true,
+const sources_categories_index_sources = new TableIndex({
+  name: 'sources_categories_index_sources',
+  columnNames: [NEWS_SOURCE_REFERENCED_COLUMN_NAME],
+});
+
+const sources_categories_index_categories = new TableIndex({
+  name: 'sources_categories_index_categories',
+  columnNames: [NEWS_CATEGORIES_REFERENCED_COLUMN_NAME],
 });
 
 const news_sources_foreign_key = new TableForeignKey({
   columnNames: [NEWS_SOURCE_REFERENCED_COLUMN_NAME],
   referencedTableName: NEWS_SOURCES_TABLE_NAME,
   referencedColumnNames: [NEWS_SOURCES_TABLE_COLUMNS.uuid.name],
+  onDelete: 'CASCADE',
 });
 
 const news_categories_foreign_key = new TableForeignKey({
   columnNames: [NEWS_CATEGORIES_REFERENCED_COLUMN_NAME],
   referencedTableName: NEWS_CATEGORIES_TABLE_NAME,
   referencedColumnNames: [NEWS_CATEGORIES_TABLE_COLUMNS.uuid.name],
+  onDelete: 'CASCADE',
 });
 
-const news_sources_and_categories_table = new Table({
+const sources_categories_table = new Table({
   name: 'news_sources_categories',
+  uniques: [
+    {
+      name: 'COMPOSITE_PRIMARY_KEY',
+      columnNames: [NEWS_SOURCE_REFERENCED_COLUMN_NAME, NEWS_CATEGORIES_REFERENCED_COLUMN_NAME],
+    },
+  ],
   columns: [
     {
       name: NEWS_SOURCE_REFERENCED_COLUMN_NAME,
       type: 'uuid',
       isNullable: false,
+      isPrimary: true,
     },
     {
       name: NEWS_CATEGORIES_REFERENCED_COLUMN_NAME,
       type: 'uuid',
       isNullable: false,
+      isPrimary: true,
     },
   ],
-  indices: [news_sources_and_categories_table_index],
+  indices: [sources_categories_index_sources, sources_categories_index_categories],
   foreignKeys: [news_categories_foreign_key, news_sources_foreign_key],
 });
 
@@ -63,8 +77,8 @@ export class CreateNewsSourcesTable1716638750328 implements MigrationInterface {
   public async up(queryRunner: QueryRunner): Promise<void> {
     try {
       await queryRunner.startTransaction();
-      await queryRunner.createTable(news_sources_table);
-      await queryRunner.createTable(news_sources_and_categories_table);
+      await queryRunner.createTable(sources_table);
+      await queryRunner.createTable(sources_categories_table);
       await queryRunner.commitTransaction();
     } catch {
       await queryRunner.rollbackTransaction();
@@ -74,14 +88,17 @@ export class CreateNewsSourcesTable1716638750328 implements MigrationInterface {
   public async down(queryRunner: QueryRunner): Promise<void> {
     try {
       await queryRunner.startTransaction();
-      await queryRunner.dropForeignKeys(news_sources_and_categories_table, [
+      await queryRunner.dropForeignKeys(sources_categories_table, [
         news_sources_foreign_key,
         news_categories_foreign_key,
       ]);
-      await queryRunner.dropIndex(news_sources_and_categories_table, news_sources_and_categories_table_index);
+      await queryRunner.dropIndices(sources_categories_table, [
+        sources_categories_index_sources,
+        sources_categories_index_categories,
+      ]);
       await Promise.all([
-        queryRunner.dropTable(news_sources_table),
-        queryRunner.dropTable(news_sources_and_categories_table),
+        queryRunner.dropTable(sources_table),
+        queryRunner.dropTable(sources_categories_table),
       ]);
       await queryRunner.commitTransaction();
     } catch {

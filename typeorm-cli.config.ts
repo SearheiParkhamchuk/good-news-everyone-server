@@ -24,6 +24,7 @@ const dataSource = NestFactory.create(ConfigModule.forRoot({ load: [postgres_db_
       database: config.database,
       entities: [ArticleRepositoryEntity, NewsCategoriesRepositoryEntity, NewsSourcesRepositoryEntity],
       migrationsTableName: 'migrations',
+      synchronize: false,
       migrations: [
         CreateArticlesTable1716558248888,
         CreateNewsCategoriesTable1716563709169,
