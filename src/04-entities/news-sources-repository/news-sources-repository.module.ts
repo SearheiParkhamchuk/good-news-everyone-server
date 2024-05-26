@@ -7,5 +7,6 @@ import { NewsSourcesRepositoryService } from './news-sources-repository.service'
   controllers: [],
   providers: [NewsSourcesRepositoryService],
   imports: [TypeOrmModule.forFeature([NewsSourcesRepositoryEntity])],
+  exports: [NewsSourcesRepositoryService],
 })
-export class NewsSourcesModule {}
+export class NewsSourcesRepositoryModule {}
