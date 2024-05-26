@@ -49,8 +49,7 @@ export const ARTICLES_TABLE_COLUMNS: Record<Columns, ColumnDecoratorOptions> = {
   id: {
     name: 'id',
     type: 'varchar',
-    unique: true,
-    nullable: false,
+    nullable: true,
     length: '512',
   },
   description: {

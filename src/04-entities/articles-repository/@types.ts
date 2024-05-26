@@ -1,21 +1,4 @@
-export type ArticleRemoteSourceMedia = {
-  height: string;
-  url: string;
-  width: string;
-};
-
-export type ArticleRemoteSource = {
-  media: {
-    images: ArticleRemoteSourceMedia[];
-  };
-  published_at: Date;
-  source: string;
-  source_name: string;
-  title: string;
-  description?: string;
-  id?: string;
-  thumbnail?: string;
-};
+import { ArticleRemoteSource } from '../news-sources-receiver/@types';
 
 export type ArticleLocalSource = ArticleRemoteSource & {
   created_at: Date;
@@ -30,4 +13,14 @@ export type ArticleLocalSourceDehydrated = ArticleLocalSource & {
 
 export type ArticleSourceDTO = ArticleRemoteSource & {
   expire_at: Date;
+};
+
+export type ArticlesGetManyCriteria = {
+  page: number;
+  query: string | null;
+  size: number;
+  sort?: {
+    by: string;
+    direction?: 'ASC' | 'DESC';
+  };
 };

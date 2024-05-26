@@ -1,6 +1,6 @@
 import { Column, Entity, BaseEntity } from 'typeorm';
 import { ARTICLES_TABLE_COLUMNS, ARTICLES_TABLE_NAME } from './articles-repository.schema';
-import { ArticleRemoteSourceMedia } from './@types';
+import { ArticleRemoteSourceMedia } from '../news-sources-receiver/@types';
 
 @Entity(ARTICLES_TABLE_NAME)
 export class ArticleRepositoryEntity extends BaseEntity {
@@ -36,4 +36,9 @@ export class ArticleRepositoryEntity extends BaseEntity {
 
   @Column(ARTICLES_TABLE_COLUMNS.expire_at)
   expire_at: Date;
+
+  constructor(entity: Partial<ArticleRepositoryEntity> = {}) {
+    super();
+    Object.assign(this, entity);
+  }
 }
