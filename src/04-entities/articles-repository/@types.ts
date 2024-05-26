@@ -1,4 +1,5 @@
 import { ArticleRemoteSource } from '../news-sources-receiver/@types';
+import { NewsSourcesRepositoryEntity } from '../news-sources-repository/news-sources-repository.entity';
 
 export type ArticleLocalSource = ArticleRemoteSource & {
   created_at: Date;
@@ -13,6 +14,7 @@ export type ArticleLocalSourceDehydrated = ArticleLocalSource & {
 
 export type ArticleSourceDTO = ArticleRemoteSource & {
   expire_at: Date;
+  source: NewsSourcesRepositoryEntity;
 };
 
 export type ArticlesGetManyCriteria = {

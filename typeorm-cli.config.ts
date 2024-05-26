@@ -11,6 +11,7 @@ import { CreateNewsCategoriesTable1716563709169 } from './src/migrations/news-ca
 import { NewsCategoriesRepositoryEntity } from './src/04-entities/news-categories-repository/news-categories-repository.entity';
 import { NewsSourcesRepositoryEntity } from './src/04-entities/news-sources-repository/news-sources-repository.entity';
 import { CreateNewsSourcesTable1716638750328 } from './src/migrations/news-sources/1716638750328-create-news-sources-table';
+import { CreateArticlesSourceForeignKey1716749159193 } from './src/migrations/articles/1716749159193-create-articles-source-foreign-key';
 
 const dataSource = NestFactory.create(ConfigModule.forRoot({ load: [postgres_db_config] })).then(
   (app: INestApplication) => {
@@ -30,6 +31,7 @@ const dataSource = NestFactory.create(ConfigModule.forRoot({ load: [postgres_db_
         CreateNewsCategoriesTable1716563709169,
         CreateTypeKeyIndex1716563826609,
         CreateNewsSourcesTable1716638750328,
+        CreateArticlesSourceForeignKey1716749159193,
       ],
     });
   },

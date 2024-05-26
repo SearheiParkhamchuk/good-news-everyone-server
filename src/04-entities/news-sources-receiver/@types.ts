@@ -19,4 +19,10 @@ export type ArticleRemoteSource = {
   thumbnail?: string;
 };
 
-export type GetSourcesCriteria = { sources: Array<{ url: string; source: NEWS_REPOSITORY_SOURCES }> };
+export type GetSourcesCriteria<M extends object> = {
+  sources: Array<{
+    url: string;
+    source: NEWS_REPOSITORY_SOURCES;
+    metadata?: M;
+  }>;
+};

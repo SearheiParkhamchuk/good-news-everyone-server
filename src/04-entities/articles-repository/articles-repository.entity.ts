@@ -1,6 +1,7 @@
-import { Column, Entity, BaseEntity } from 'typeorm';
+import { Column, Entity, BaseEntity, ManyToOne, JoinColumn } from 'typeorm';
 import { ARTICLES_TABLE_COLUMNS, ARTICLES_TABLE_NAME } from './articles-repository.schema';
 import { ArticleRemoteSourceMedia } from '../news-sources-receiver/@types';
+import { NewsSourcesRepositoryEntity } from '../news-sources-repository/news-sources-repository.entity';
 
 @Entity(ARTICLES_TABLE_NAME)
 export class ArticleRepositoryEntity extends BaseEntity {
@@ -36,6 +37,10 @@ export class ArticleRepositoryEntity extends BaseEntity {
 
   @Column(ARTICLES_TABLE_COLUMNS.expire_at)
   expire_at: Date;
+
+  @ManyToOne(() => NewsSourcesRepositoryEntity)
+  @JoinColumn({ name: 'source' })
+  source: NewsSourcesRepositoryEntity;
 
   constructor(entity: Partial<ArticleRepositoryEntity> = {}) {
     super();
