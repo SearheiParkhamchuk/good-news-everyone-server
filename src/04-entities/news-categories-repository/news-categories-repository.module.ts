@@ -6,6 +6,7 @@ import { NewsCategoriesRepositoryEntity } from './news-categories-repository.ent
 @Module({
   imports: [TypeOrmModule.forFeature([NewsCategoriesRepositoryEntity])],
   providers: [NewsCategoriesRepositoryService],
+  exports: [NewsCategoriesRepositoryService],
   controllers: [],
 })
 export class NewsCategoriesRepositoryModule {}

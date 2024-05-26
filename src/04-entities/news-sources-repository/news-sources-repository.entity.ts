@@ -6,6 +6,7 @@ import {
 } from './news-sources-repository.schema';
 import { NewsCategoriesRepositoryEntity } from '../news-categories-repository/news-categories-repository.entity';
 import { NEWS_CATEGORIES_REFERENCED_COLUMN_NAME } from '../news-categories-repository/news-categories-repository.schema';
+import { NEWS_REPOSITORY_SOURCES } from './@enums';
 
 @Entity(NEWS_SOURCES_TABLE_NAME)
 export class NewsSourcesRepositoryEntity extends BaseEntity {
@@ -21,10 +22,13 @@ export class NewsSourcesRepositoryEntity extends BaseEntity {
   @Column(NEWS_SOURCES_TABLE_COLUMNS.url)
   url: string;
 
-  @Column(NEWS_SOURCES_TABLE_COLUMNS.name)
-  name: string;
+  @Column(NEWS_SOURCES_TABLE_COLUMNS.title)
+  title: string;
 
-  @ManyToMany(() => NewsCategoriesRepositoryEntity, (categories) => categories.news_sources, { eager: true })
+  @Column(NEWS_SOURCES_TABLE_COLUMNS.source)
+  source: NEWS_REPOSITORY_SOURCES;
+
+  @ManyToMany(() => NewsCategoriesRepositoryEntity, (categories) => categories.news_sources)
   @JoinTable({
     name: 'news_sources_categories',
     joinColumn: {
