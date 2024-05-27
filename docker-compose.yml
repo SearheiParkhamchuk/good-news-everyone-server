@@ -1,6 +1,23 @@
 version: '3.9'
 
 services:
+  server:
+    build: 
+      context: .
+      target: production
+    container_name: good-news-everyone-server
+    restart: always
+    ports:
+      - "${APP_PORT}:${APP_PORT}"
+    env_file:
+      - .env
+    environment:
+      - NODE_ENV=production
+    depends_on:
+      - postgres
+    networks:
+      - app
+
   postgres:
     container_name: ${DB_PG_HOST}
     image: postgres:latest
@@ -14,3 +31,9 @@ services:
       POSTGRES_DB: ${DB_PG_NAME}
     volumes:
       - ./volumes/pg_database:/var/lib/postgresql/data
+    networks:
+      - app
+
+networks:
+  app:
+    driver: bridge
