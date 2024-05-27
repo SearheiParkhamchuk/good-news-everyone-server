@@ -5,7 +5,7 @@ services:
     build: 
       context: .
       target: production
-    container_name: good-news-everyone-server
+    container_name: gne-app
     restart: always
     ports:
       - "${APP_PORT}:${APP_PORT}"

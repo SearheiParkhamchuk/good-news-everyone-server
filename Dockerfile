@@ -30,7 +30,6 @@ COPY --from=build /usr/src/good-news-everyone-server/dist ./dist
 COPY package.json package-lock.json ./
 
 RUN npm install --only=production
-RUN rm  package*.json
 
 EXPOSE 3001
 
