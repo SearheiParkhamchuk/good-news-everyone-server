@@ -31,7 +31,8 @@ COPY package.json package-lock.json ./
 
 RUN npm install --only=production
 
-EXPOSE 3001
+ARG APP_PORT
+EXPOSE ${APP_PORT}
 
 # Start the server using the production build
 CMD ["node", "dist/src/main.js"]
