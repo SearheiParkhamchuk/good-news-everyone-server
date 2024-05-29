@@ -8,7 +8,7 @@ WORKDIR /usr/src/good-news-everyone-server
 
 COPY package.json package-lock.json ./
 
-RUN npm install
+RUN npm install --verbose
 
 COPY . .
 
@@ -29,7 +29,7 @@ ENV NODE_ENV=${NODE_ENV}
 COPY --from=build /usr/src/good-news-everyone-server/dist ./dist
 COPY package.json package-lock.json ./
 
-RUN npm install --only=production
+RUN npm install --verbose --only=production
 
 # Start the server using the production build
 CMD ["node", "dist/src/main.js"]
