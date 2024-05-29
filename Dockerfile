@@ -18,7 +18,7 @@ RUN npm run build
 # PRODUCTION STAGE
 ###################
 
-FROM node:20-alpine As production
+FROM node:18-alpine As production
 
 WORKDIR /usr/src/good-news-everyone-server
 
