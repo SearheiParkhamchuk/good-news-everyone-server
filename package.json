@@ -20,10 +20,10 @@
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
     "test:e2e": "jest --config ./test/jest-e2e.json",
     "migration:create": "npx typeorm migration:create",
-    "migration:roll": "npm run build && npx typeorm migration:run  -d ./dist/typeorm-cli.config.js",
-    "migration:revert": "npm run build && npx typeorm migration:revert  -d ./dist/typeorm-cli.config.js",
-    "migration:roll:data": "npm run build && npx typeorm migration:run  -d ./dist/typeorm-cli.config.data.js",
-    "migration:revert:data": "npm run build && npx typeorm migration:revert  -d ./dist/typeorm-cli.config.data.js"
+    "migration:roll": "npx typeorm migration:run  -d ./dist/typeorm-cli.config.js",
+    "migration:revert": "npx typeorm migration:revert  -d ./dist/typeorm-cli.config.js",
+    "migration:roll:data": "npx typeorm migration:run  -d ./dist/typeorm-cli.config.data.js",
+    "migration:revert:data": "npx typeorm migration:revert  -d ./dist/typeorm-cli.config.data.js"
   },
   "dependencies": {
     "@hapi/joi": "^17.1.1",
