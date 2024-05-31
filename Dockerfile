@@ -2,7 +2,7 @@
 # BUILD STAGE
 ###################
 
-FROM node:20-alpine As build
+FROM node:18-alpine As build
 
 WORKDIR /usr/src/good-news-everyone-server
 
