@@ -16,12 +16,14 @@ export class ArticlesRepositoryService {
 
   async insertMany(articles: ArticleSourceDTO[]) {
     const query_runner = this.data_source.createQueryRunner();
+    await query_runner.connect();
+    await query_runner.startTransaction();
 
     try {
-      await query_runner.startTransaction();
       const repository = query_runner.manager.getRepository(ArticleRepositoryEntity);
       const query_builder = repository.createQueryBuilder();
       const response = await query_builder
+        .setLock('pessimistic_write')
         .insert()
         .values(articles)
         .orUpdate(['title', 'description', 'expire_at'])
@@ -33,8 +35,9 @@ export class ArticlesRepositoryService {
       return response.raw;
     } catch (e) {
       await query_runner.rollbackTransaction();
-      console.log(e);
       throw e;
+    } finally {
+      await query_runner.release();
     }
   }
 
