@@ -5,7 +5,7 @@ import {
 import { MigrationInterface, QueryRunner, TableIndex } from 'typeorm';
 
 const type_key_index = new TableIndex({
-  name: 'key_type',
+  name: 'type_key_index',
   columnNames: [NEWS_CATEGORIES_TABLE_COLUMNS.key.name, NEWS_CATEGORIES_TABLE_COLUMNS.type.name],
   isUnique: true,
 });

@@ -1,8 +1,9 @@
 import { ColumnDecoratorOptions } from '@/src/migrations/@helpers/map-column-decorator-to-table-column.helper';
 import { NEWS_REPOSITORY_SOURCES } from './@enums';
 
-export const NEWS_SOURCES_TABLE_NAME = 'news-sources';
+export const NEWS_SOURCES_TABLE_NAME = 'news_sources';
 export const NEWS_SOURCE_REFERENCED_COLUMN_NAME = 'news_source_id';
+export const NEWS_SOURCE_CATEGORIES_TABLE_NAME = 'news_sources_categories';
 
 type Columns = 'uuid' | 'created_at' | 'updated_at' | 'title' | 'url' | 'source';
 
