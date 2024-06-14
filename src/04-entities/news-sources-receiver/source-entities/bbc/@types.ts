@@ -32,9 +32,9 @@ export type RawDataSource = {
         pubDate: string;
         title: string;
         'media:thumbnail'?: {
-          [PREFIXED_ATTRIBUTES.HEIGHT]: number;
+          [PREFIXED_ATTRIBUTES.HEIGHT]?: number;
           [PREFIXED_ATTRIBUTES.URL]: string;
-          [PREFIXED_ATTRIBUTES.WIDTH]: number;
+          [PREFIXED_ATTRIBUTES.WIDTH]?: number;
         };
       }>;
       language: string;

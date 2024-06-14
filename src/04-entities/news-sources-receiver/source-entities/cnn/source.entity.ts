@@ -15,14 +15,19 @@ export class CNNNewsSourceEntity<M extends object> extends NewsSource<RawDataSou
 
   adapter(): SourceResponse<ArticleRemoteSource[], M> {
     const rawData = this.data;
-    if (!rawData) return { error: this.error ?? new Error('Internal server error'), data: null };
+    const metadata = rawData.metadata;
+    if (!rawData.data) {
+      return { error: this.error ?? new Error('Internal server error'), data: null, metadata };
+    }
+
+    const source_name = rawData.data.rss.channel.title;
 
     const data = rawData.data.rss.channel.item.map((item) => ({
       description: item.description,
       id: item.guid['#text'],
       published_at: new Date(item.pubDate),
       source_url: item.link,
-      source_name: rawData.data.rss.channel.title,
+      source_name,
       thumbnail: item['media:thumbnail']?.['@_url'] ?? undefined,
       title: item.title,
       media: {
@@ -35,6 +40,6 @@ export class CNNNewsSourceEntity<M extends object> extends NewsSource<RawDataSou
       },
     }));
 
-    return { error: null, data, metadata: rawData.metadata };
+    return { error: null, data, metadata };
   }
 }

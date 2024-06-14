@@ -1,9 +1,9 @@
 import { NEWS_REPOSITORY_SOURCES } from '../news-sources-repository/@enums';
 
 export type ArticleRemoteSourceMedia = {
-  height: string;
+  height?: string;
   url: string;
-  width: string;
+  width?: string;
 };
 
 export type ArticleRemoteSource = {
