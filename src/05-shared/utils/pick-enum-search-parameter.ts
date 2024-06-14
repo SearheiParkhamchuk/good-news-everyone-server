@@ -1,7 +1,9 @@
+import { PolymorphicSearcParams } from '../types/PolymorphicSearcParams';
+
 type Enum = Record<string, string | number>;
 
 export function pickEnumSearchParameter<V extends Enum>(
-  parameters: Record<string, string | string[] | undefined> | URLSearchParams,
+  parameters: PolymorphicSearcParams,
   num: V,
   key: string,
 ): V[keyof V] | undefined {
