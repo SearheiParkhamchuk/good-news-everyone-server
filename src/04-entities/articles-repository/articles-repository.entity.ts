@@ -1,5 +1,9 @@
 import { Column, Entity, BaseEntity, ManyToOne, JoinColumn } from 'typeorm';
-import { ARTICLES_TABLE_COLUMNS, ARTICLES_TABLE_NAME } from './articles-repository.schema';
+import {
+  ARTICLES_TABLE_COLUMNS,
+  ARTICLES_TABLE_NAME,
+  ARTICLES_TABLE_SOURCE_FOREIGN_KEY,
+} from './articles-repository.schema';
 import { ArticleRemoteSourceMedia } from '../news-sources-receiver/@types';
 import { NewsSourcesRepositoryEntity } from '../news-sources-repository/news-sources-repository.entity';
 
@@ -38,8 +42,8 @@ export class ArticleRepositoryEntity extends BaseEntity {
   @Column(ARTICLES_TABLE_COLUMNS.expire_at)
   expire_at: Date;
 
-  @ManyToOne(() => NewsSourcesRepositoryEntity)
-  @JoinColumn({ name: 'source' })
+  @ManyToOne(() => NewsSourcesRepositoryEntity, (entity) => entity.categories)
+  @JoinColumn({ name: 'source', foreignKeyConstraintName: ARTICLES_TABLE_SOURCE_FOREIGN_KEY })
   source: NewsSourcesRepositoryEntity;
 
   constructor(entity: Partial<ArticleRepositoryEntity> = {}) {

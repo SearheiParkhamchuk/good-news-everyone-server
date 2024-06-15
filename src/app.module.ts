@@ -8,6 +8,9 @@ import { NewsArticlesDeletionSchedulerModule } from './02-modules/news-articles-
 import { NewsArticlesModule } from './02-modules/news-articles/news-articles.module';
 import { NewsCategoriesRepositoryModule } from './04-entities/news-categories-repository';
 import { appConfig } from './05-shared/configs/app.config';
+import { GlobalInterceptors } from './01-app/global-interceptors/global-interceptors.module';
+import { NewsCategoriesModule } from './02-modules/news-categories';
+import { GlobalFilters } from './01-app/global-filters/global-filters.module';
 
 @Module({
   imports: [
@@ -16,6 +19,9 @@ import { appConfig } from './05-shared/configs/app.config';
     NewsArticlesDeletionSchedulerModule,
     TypeormRootModule,
     NewsArticlesModule,
+    NewsCategoriesModule,
+    GlobalInterceptors,
+    GlobalFilters,
     ConfigModule.forRoot({ load: [appConfig] }),
     ScheduleModule.forRoot(),
   ],

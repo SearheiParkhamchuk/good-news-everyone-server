@@ -1,6 +1,7 @@
 import {
   NEWS_SOURCES_TABLE_COLUMNS,
   NEWS_SOURCES_TABLE_NAME,
+  NEWS_SOURCE_CATEGORIES_TABLE_NAME,
   NEWS_SOURCE_REFERENCED_COLUMN_NAME,
 } from '@/src/04-entities/news-sources-repository/news-sources-repository.schema';
 import { MigrationInterface, QueryRunner, TableColumn, Table, TableIndex, TableForeignKey } from 'typeorm';
@@ -48,7 +49,7 @@ const news_categories_foreign_key = new TableForeignKey({
 });
 
 const sources_categories_table = new Table({
-  name: 'news_sources_categories',
+  name: NEWS_SOURCE_CATEGORIES_TABLE_NAME,
   uniques: [
     {
       name: 'COMPOSITE_PRIMARY_KEY',

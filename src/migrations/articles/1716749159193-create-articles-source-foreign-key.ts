@@ -1,6 +1,7 @@
 import {
   ARTICLES_TABLE_COLUMNS,
   ARTICLES_TABLE_NAME,
+  ARTICLES_TABLE_SOURCE_FOREIGN_KEY,
 } from '@/src/04-entities/articles-repository/articles-repository.schema';
 import {
   NEWS_SOURCES_TABLE_COLUMNS,
@@ -10,7 +11,7 @@ import { MigrationInterface, QueryRunner, TableForeignKey, TableColumn } from 't
 import { mapColumnDecoratorToTableColumn } from '../@helpers/map-column-decorator-to-table-column.helper';
 
 const ARTICLE_SOURCE_FOREIGN_KEY = new TableForeignKey({
-  name: 'article_source_foreign_key',
+  name: ARTICLES_TABLE_SOURCE_FOREIGN_KEY,
   columnNames: [ARTICLES_TABLE_COLUMNS.source.name],
   referencedTableName: NEWS_SOURCES_TABLE_NAME,
   referencedColumnNames: [NEWS_SOURCES_TABLE_COLUMNS.uuid.name],
@@ -26,5 +27,6 @@ export class CreateArticlesSourceForeignKey1716749159193 implements MigrationInt
 
   public async down(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.dropForeignKey(ARTICLES_TABLE_NAME, ARTICLE_SOURCE_FOREIGN_KEY);
+    await queryRunner.dropColumn(ARTICLES_TABLE_NAME, SOURCE);
   }
 }

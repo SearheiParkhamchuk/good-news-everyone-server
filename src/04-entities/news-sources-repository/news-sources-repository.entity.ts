@@ -2,12 +2,15 @@ import { Entity, Column, ManyToMany, JoinTable, BaseEntity, OneToMany } from 'ty
 import {
   NEWS_SOURCES_TABLE_COLUMNS,
   NEWS_SOURCES_TABLE_NAME,
+  NEWS_SOURCE_CATEGORIES_TABLE_NAME,
   NEWS_SOURCE_REFERENCED_COLUMN_NAME,
 } from './news-sources-repository.schema';
 import { NewsCategoriesRepositoryEntity } from '../news-categories-repository/news-categories-repository.entity';
 import { NEWS_CATEGORIES_REFERENCED_COLUMN_NAME } from '../news-categories-repository/news-categories-repository.schema';
 import { NEWS_REPOSITORY_SOURCES } from './@enums';
 import { ArticleRepositoryEntity } from '../articles-repository/articles-repository.entity';
+
+export const VIRTUAL_CATEGORIES_TABLE_NAME = 'categories';
 
 @Entity(NEWS_SOURCES_TABLE_NAME)
 export class NewsSourcesRepositoryEntity extends BaseEntity {
@@ -34,7 +37,7 @@ export class NewsSourcesRepositoryEntity extends BaseEntity {
 
   @ManyToMany(() => NewsCategoriesRepositoryEntity, (categories) => categories.news_sources)
   @JoinTable({
-    name: 'news_sources_categories',
+    name: NEWS_SOURCE_CATEGORIES_TABLE_NAME,
     joinColumn: {
       name: NEWS_SOURCE_REFERENCED_COLUMN_NAME,
       referencedColumnName: 'uuid',
@@ -44,5 +47,5 @@ export class NewsSourcesRepositoryEntity extends BaseEntity {
       referencedColumnName: 'uuid',
     },
   })
-  categories: NewsCategoriesRepositoryEntity[];
+  [VIRTUAL_CATEGORIES_TABLE_NAME]: NewsCategoriesRepositoryEntity[];
 }

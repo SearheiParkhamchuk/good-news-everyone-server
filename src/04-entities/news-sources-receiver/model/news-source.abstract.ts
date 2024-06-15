@@ -7,16 +7,16 @@ export type SourceResponse<D, M extends object> =
   | {
       data: null;
       error: Error;
-      metadata?: M;
+      metadata: M;
     }
   | {
       data: D;
       error: null;
-      metadata?: M;
+      metadata: M;
     };
 
 export abstract class NewsSource<D = any, M extends object = Record<string, never>> {
-  data: { data: D | undefined; metadata?: M };
+  data: { data: D | undefined; metadata: M };
   error: Error | undefined;
 
   abstract source: string;

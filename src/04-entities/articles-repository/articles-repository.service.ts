@@ -5,6 +5,8 @@ import { Repository, DataSource, LessThanOrEqual, ILike } from 'typeorm';
 
 import { ArticleRepositoryEntity } from './articles-repository.entity';
 import { ArticleSourceDTO, ArticlesGetManyCriteria } from './@types';
+import { ARTICLES_TABLE_COLUMNS, ARTICLES_TABLE_NAME } from './articles-repository.schema';
+import { VIRTUAL_CATEGORIES_TABLE_NAME } from '../news-sources-repository/news-sources-repository.entity';
 
 @Injectable()
 export class ArticlesRepositoryService {
@@ -32,7 +34,7 @@ export class ArticlesRepositoryService {
         .execute();
 
       await query_runner.commitTransaction();
-      return response.raw;
+      return response.raw as ArticleRepositoryEntity[];
     } catch (e) {
       await query_runner.rollbackTransaction();
       throw e;
@@ -42,15 +44,38 @@ export class ArticlesRepositoryService {
   }
 
   async getMany(options: ArticlesGetManyCriteria) {
-    const order = options.sort ? { [options.sort.by]: options.sort.direction } : undefined;
-    const result = await this.articles_respository.find({
-      where: [{ title: ILike(`%${options.query}%`) }, { description: ILike(`%${options.query}%`) }],
-      order,
-      take: options.size,
-      skip: options.size * options.page,
-    });
+    const queryBuilder = this.articles_respository.createQueryBuilder(ARTICLES_TABLE_NAME);
 
-    return result;
+    if (options.query) {
+      queryBuilder.where([
+        { title: ILike(`%${options.query}%`) },
+        { description: ILike(`%${options.query}%`) },
+      ]);
+    }
+
+    if (options.sort) {
+      queryBuilder.orderBy({ [options.sort.by]: options.sort.direction });
+    }
+
+    queryBuilder.offset(options.size * options.page).limit(options.size);
+
+    const source_column = ARTICLES_TABLE_COLUMNS.source.name;
+
+    if (options.filter_by) {
+      options.filter_by.forEach((filter) => {
+        if (filter.categories.uuid) {
+          queryBuilder.innerJoinAndSelect(`${ARTICLES_TABLE_NAME}.${source_column}`, 'source');
+
+          filter.categories.uuid.forEach((uuids, index) => {
+            queryBuilder
+              .innerJoin(`source.${VIRTUAL_CATEGORIES_TABLE_NAME}`, `categories_${index}`)
+              .andWhere(`categories_${index}.uuid IN (:...uuids_${index})`, { [`uuids_${index}`]: uuids });
+          });
+        }
+      });
+    }
+
+    return await queryBuilder.getMany();
   }
 
   async deleteExpired() {

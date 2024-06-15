@@ -9,8 +9,15 @@ import { NEWS_REPOSITORY_SOURCES } from '../news-sources-repository/@enums';
 @Injectable()
 export class NewsSourcesReceiverService {
   static selectErrors(sources: SourceResponse<ArticleRemoteSource[], any>[]) {
-    return sources.reduce((acc, source) => {
+    return sources.reduce<Error[]>((acc, source) => {
       if (source.error) acc.push(source.error);
+      return acc;
+    }, []);
+  }
+
+  static selectData<M extends object>(sources: SourceResponse<ArticleRemoteSource[], M>[]) {
+    return sources.reduce<Array<{ data: ArticleRemoteSource[]; metadata: M }>>((acc, { data, metadata }) => {
+      if (data) acc.push({ data, metadata });
       return acc;
     }, []);
   }
