@@ -1,6 +1,7 @@
 import { ColumnDecoratorOptions } from '@/src/migrations/@helpers/map-column-decorator-to-table-column.helper';
 
 export const ARTICLES_TABLE_NAME = 'articles';
+export const ARTICLES_TABLE_SOURCE_FOREIGN_KEY = 'article_source_foreign_key';
 
 type Columns =
   | 'uuid'
@@ -65,14 +66,12 @@ export const ARTICLES_TABLE_COLUMNS: Record<Columns, ColumnDecoratorOptions> = {
   },
   title: {
     name: 'title',
-    type: 'varchar',
-    length: '255',
+    type: 'text',
     nullable: false,
   },
   source_url: {
     name: 'source_url',
-    type: 'varchar',
-    length: '255',
+    type: 'text',
     nullable: false,
     unique: true,
   },
