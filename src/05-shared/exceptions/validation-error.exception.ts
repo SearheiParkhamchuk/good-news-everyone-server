@@ -10,7 +10,7 @@ export class ValidationError extends BadRequestException {
       status: HttpStatus.BAD_REQUEST,
       code: 'VALIDATION',
       message,
-      more_info: { invalid_fields },
+      details: { invalid_fields },
     });
   }
 }
